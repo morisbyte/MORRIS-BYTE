@@ -28,7 +28,8 @@ import { ProjectCard } from '../components/common/ProjectCard';
 import { ServiceCard } from '../components/common/ServiceCard';
 import { BlogCard } from '../components/common/BlogCard';
 import { ShowreelModal } from '../components/common/ShowreelModal';
-import { AURELIA_LOGO, AURELIA_TAGLINE } from '../constants/assets';
+import { AURELIA_LOGO, AURELIA_TAGLINE, CONSTRUCTION_3D_BG } from '../constants/assets';
+import { Box, Scan, Activity, Radio, Eye } from 'lucide-react';
 
 interface HomePageProps {
   projects?: Project[];
@@ -52,6 +53,8 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [activeProjectFilter, setActiveProjectFilter] = useState<'All' | string>('All');
   const [showreelOpen, setShowreelOpen] = useState(false);
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
+  const [hero3dMode, setHero3dMode] = useState<boolean>(false);
+  const [activeHotspot, setActiveHotspot] = useState<number | null>(0);
 
   const heroFeaturedProjects = (projects || []).slice(0, 3);
   const currentHeroProject = heroFeaturedProjects[activeHeroSlide] || (projects && projects[0]);
@@ -110,33 +113,56 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* Subtle Artistic Matrix Pattern Background */}
       <div className="fixed inset-0 opacity-[0.025] pointer-events-none bg-artistic-grid z-0" />
 
-      {/* 1. ARTISTIC FLAIR HERO SECTION */}
-      <section className="relative min-h-[calc(100vh-80px)] flex flex-col lg:flex-row border-b border-[#D9D7D0] z-10 pt-20 sm:pt-24 bg-[#F4F1EA]">
+      {/* 1. ARTISTIC FLAIR HERO SECTION WITH 3D CONSTRUCTION BACKGROUND */}
+      <section className="relative min-h-[calc(100vh-80px)] flex flex-col lg:flex-row border-b border-[#D9D7D0] z-10 pt-20 sm:pt-24 bg-[#F4F1EA] overflow-hidden">
+        {/* Photorealistic 3D Construction Background Layer (Left Side) */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-[0.16] sm:opacity-[0.20]">
+          <img
+            src={CONSTRUCTION_3D_BG}
+            alt="3D Construction Superstructure Background"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-right-top filter contrast-125 saturate-110"
+          />
+          {/* Refined gradient scrims for pristine typographic contrast */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#F4F1EA] via-[#F4F1EA]/85 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F4F1EA] via-transparent to-[#F4F1EA]/50" />
+        </div>
+
         {/* Left Side: Monumental Typography & Architectural Statement */}
-        <div className="w-full lg:w-[62%] p-6 sm:p-12 lg:p-20 flex flex-col justify-center relative overflow-hidden">
+        <div className="w-full lg:w-[62%] p-6 sm:p-12 lg:p-20 flex flex-col justify-center relative overflow-hidden z-10">
           {/* Giant Decorative Monogram Watermark */}
           <div className="absolute -top-12 left-6 sm:left-12 text-[240px] sm:text-[340px] font-black font-display text-[#111315]/[0.025] pointer-events-none select-none">
             A
           </div>
 
           <div className="relative z-10">
-            {/* Architectural Sub-Rule with Official Emblem */}
-            <div className="flex items-center gap-3.5 mb-6 sm:mb-8">
-              <div className="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-[#DC2626] via-[#F59E0B] to-[#DC2626] shadow-md shrink-0">
-                <img
-                  src={AURELIA_LOGO}
-                  alt="Aurelia Construct Group Official Seal"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover rounded-full"
-                />
+            {/* Architectural Sub-Rule with Official Emblem & 3D Telemetry Chip */}
+            <div className="flex flex-wrap items-center justify-between gap-3.5 mb-6 sm:mb-8">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-[#DC2626] via-[#F59E0B] to-[#DC2626] shadow-md shrink-0">
+                  <img
+                    src={AURELIA_LOGO}
+                    alt="Aurelia Construct Group Official Seal"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </div>
+                <div>
+                  <span className="text-[#DC2626] text-xs font-bold tracking-[0.35em] uppercase font-mono block">
+                    Global Engineering Excellence
+                  </span>
+                  <span className="text-[10px] text-[#5A5C58] font-mono tracking-[0.2em] uppercase block">
+                    {AURELIA_TAGLINE}
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className="text-[#DC2626] text-xs font-bold tracking-[0.35em] uppercase font-mono block">
-                  Global Engineering Excellence
-                </span>
-                <span className="text-[10px] text-[#5A5C58] font-mono tracking-[0.2em] uppercase block">
-                  {AURELIA_TAGLINE}
-                </span>
+
+              {/* 3D BIM Live Telemetry Pill */}
+              <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 bg-white/80 border border-[#D9D7D0] shadow-xs text-[10px] font-mono text-[#5A5C58]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
+                <Box className="w-3 h-3 text-[#DC2626]" />
+                <span className="font-bold text-[#111315]">3D BIM LOD-500</span>
+                <span className="text-[#8B8D89]">| CRANES ONLINE</span>
               </div>
             </div>
 
@@ -153,11 +179,11 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
 
             {/* Primary Action Row */}
-            <div className="flex flex-wrap items-center gap-6 sm:gap-10">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6">
               {/* Showreel Circle Trigger */}
               <button 
                 onClick={() => setShowreelOpen(true)}
-                className="group cursor-pointer flex items-center gap-3.5 focus:outline-none"
+                className="group cursor-pointer flex items-center gap-3 focus:outline-none"
               >
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-[#111315] flex items-center justify-center group-hover:bg-[#111315] transition-all">
                   <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-[#111315] border-b-[5px] border-b-transparent ml-1 group-hover:border-l-[#F4F1EA]" />
@@ -167,44 +193,110 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </span>
               </button>
 
-              <div className="hidden sm:block h-[1px] w-16 bg-[#D9D7D0]" />
+              <div className="hidden sm:block h-[1px] w-10 bg-[#D9D7D0]" />
 
               <button
                 onClick={() => navigate('projects')}
-                className="px-6 sm:px-8 py-3.5 bg-[#111315] hover:bg-[#DC2626] text-[#F4F1EA] hover:text-[#111315] text-xs font-bold uppercase tracking-[0.2em] transition-all"
+                className="px-6 sm:px-8 py-3.5 bg-[#111315] hover:bg-[#DC2626] text-[#F4F1EA] hover:text-[#111315] text-xs font-bold uppercase tracking-[0.2em] transition-all cursor-pointer"
               >
                 Explore Portfolio
+              </button>
+
+              {/* 3D View Toggle Button */}
+              <button
+                onClick={() => setHero3dMode(!hero3dMode)}
+                className={`px-4 py-3.5 border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+                  hero3dMode 
+                    ? 'bg-[#DC2626] border-[#DC2626] text-white' 
+                    : 'bg-white/80 hover:bg-white border-[#D9D7D0] text-[#111315] hover:border-[#111315]'
+                }`}
+                title="Toggle 3D Construction Digital Twin Perspective"
+              >
+                <Box className="w-3.5 h-3.5" />
+                <span>{hero3dMode ? 'Photo Mode' : '3D Site Model'}</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Right Side: Contrast Charcoal Panel & Active Project Highlight */}
-        <div className="w-full lg:w-[38%] bg-[#111315] relative flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#D9D7D0]">
-          {/* Featured Project Details */}
-          <div className="p-8 sm:p-12 text-[#F4F1EA] flex flex-col justify-end relative flex-1">
-            {/* Background Project Preview with Low Opacity Overlay */}
-            {currentHeroProject?.featuredImage && (
-              <div className="absolute inset-0 z-0 overflow-hidden opacity-25">
+        {/* Right Side: Contrast Charcoal Panel & Active Project Highlight / 3D Site Simulation */}
+        <div className="w-full lg:w-[38%] bg-[#111315] relative flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#D9D7D0] overflow-hidden">
+          {/* View Switcher Top Strip on Right Panel */}
+          <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-[#1C2230]/90 backdrop-blur-md border border-[#262D3B] p-1">
+            <button
+              onClick={() => setHero3dMode(false)}
+              className={`px-2.5 py-1 text-[10px] font-mono uppercase font-bold transition-all cursor-pointer ${
+                !hero3dMode ? 'bg-[#DC2626] text-white' : 'text-[#9CA3AF] hover:text-white'
+              }`}
+            >
+              Photo
+            </button>
+            <button
+              onClick={() => setHero3dMode(true)}
+              className={`px-2.5 py-1 text-[10px] font-mono uppercase font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                hero3dMode ? 'bg-[#DC2626] text-white' : 'text-[#9CA3AF] hover:text-white'
+              }`}
+            >
+              <Box className="w-3 h-3" />
+              <span>3D Render</span>
+            </button>
+          </div>
+
+          {/* Featured Project Details or 3D Digital Twin View */}
+          <div className="p-8 sm:p-12 text-[#F4F1EA] flex flex-col justify-end relative flex-1 pt-16">
+            {/* Background 3D Construction Render OR Real Photo */}
+            {hero3dMode ? (
+              <div className="absolute inset-0 z-0 overflow-hidden">
                 <img
-                  src={currentHeroProject.featuredImage}
-                  alt={currentHeroProject.title}
+                  src={CONSTRUCTION_3D_BG}
+                  alt="3D Construction Engineering Site Model"
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover filter contrast-125"
+                  className="w-full h-full object-cover filter contrast-125 brightness-90 animate-pulse-slow"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#111315] via-[#111315]/80 to-[#111315]/40" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111315] via-[#111315]/60 to-[#111315]/40" />
+
+                {/* Animated 3D Scanning Line Overlay */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,rgba(220,38,38,0.15)_50%,transparent_100%)] bg-[length:100%_8px] opacity-40 pointer-events-none" />
+
+                {/* Floating CAD HUD Markers */}
+                <div className="absolute top-16 left-6 pointer-events-none">
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-black/80 border border-[#DC2626]/50 text-[9px] font-mono text-[#DC2626]">
+                    <Scan className="w-2.5 h-2.5 animate-spin" />
+                    <span>LIDAR 3D POINT CLOUD: 48M PTS</span>
+                  </span>
+                </div>
               </div>
+            ) : (
+              currentHeroProject?.featuredImage && (
+                <div className="absolute inset-0 z-0 overflow-hidden opacity-30">
+                  <img
+                    src={currentHeroProject.featuredImage}
+                    alt={currentHeroProject.title}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover filter contrast-125"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#111315] via-[#111315]/80 to-[#111315]/40" />
+                </div>
+              )
             )}
 
             <div className="relative z-10 mb-8 sm:mb-12">
-              <div className="text-xs font-bold tracking-[0.3em] uppercase text-[#DC2626] mb-4">
-                Featured Project
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-xs font-bold tracking-[0.3em] uppercase text-[#DC2626]">
+                  {hero3dMode ? '3D Site Digital Twin' : 'Featured Project'}
+                </span>
+                {hero3dMode && (
+                  <span className="px-1.5 py-0.5 bg-[#DC2626]/20 border border-[#DC2626]/40 text-[9px] font-mono text-[#EF4444] uppercase font-bold">
+                    OCTANE 3D RENDER
+                  </span>
+                )}
               </div>
+
               <h2 className="text-3xl sm:text-4xl font-light font-display tracking-tight mb-2 text-[#F4F1EA]">
-                {currentHeroProject?.title || 'Aurelia Tower'}
+                {hero3dMode ? 'Parametric Superstructure Twin' : (currentHeroProject?.title || 'Aurelia Tower')}
               </h2>
               <div className="text-[11px] uppercase tracking-[0.2em] text-[#8B8D89]">
-                {currentHeroProject?.location || 'Dubai, UAE'} — {currentHeroProject?.category || 'High-Rise Commercial'}
+                {hero3dMode ? 'Kharian Global HQ & Project Sites' : `${currentHeroProject?.location || 'Dubai, UAE'} — ${currentHeroProject?.category || 'High-Rise Commercial'}`}
               </div>
 
               {/* Slide Bars Indicator */}
@@ -212,9 +304,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                 {heroFeaturedProjects.map((_, idx) => (
                   <button
                     key={idx}
-                    onClick={() => setActiveHeroSlide(idx)}
+                    onClick={() => {
+                      setActiveHeroSlide(idx);
+                      setHero3dMode(false);
+                    }}
                     className={`h-1.5 transition-all duration-300 ${
-                      activeHeroSlide === idx ? 'w-10 bg-[#DC2626]' : 'w-6 bg-white/20 hover:bg-white/40'
+                      activeHeroSlide === idx && !hero3dMode ? 'w-10 bg-[#DC2626]' : 'w-6 bg-white/20 hover:bg-white/40'
                     }`}
                     aria-label={`Slide ${idx + 1}`}
                   />
@@ -401,6 +496,213 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span>VIEW FULL TECHNICAL CAPABILITIES MATRIX</span>
               <ArrowRight className="w-4 h-4 text-[#DC2626]" />
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* 4.5. 3D INTERACTIVE CONSTRUCTION DIGITAL TWIN SECTION */}
+      <section className="py-20 sm:py-28 bg-[#111315] text-[#F4F1EA] border-b border-[#262D3B] relative z-10 overflow-hidden">
+        {/* Background 3D Construction Render with Cinematic Gradient Overlay */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-25">
+          <img
+            src={CONSTRUCTION_3D_BG}
+            alt="3D Construction Architectural Blueprint Simulation"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover filter contrast-125 saturate-125"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#111315] via-[#111315]/80 to-[#111315]" />
+          <div className="absolute inset-0 bg-radial from-transparent via-[#111315]/60 to-[#111315]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#DC2626]/20 border border-[#DC2626]/40 text-[#EF4444] text-[10px] font-mono font-bold uppercase tracking-widest mb-3">
+                <Box className="w-3.5 h-3.5" />
+                <span>3D Computational Construction & Digital Twin</span>
+              </div>
+              <h3 className="text-3xl sm:text-5xl font-black font-display tracking-tight text-[#F4F1EA]">
+                Virtual Construction. Real-World Precision.
+              </h3>
+              <p className="text-sm text-[#9CA3AF] max-w-2xl mt-3 leading-relaxed">
+                Before pouring a single cubic meter of high-performance concrete, our teams construct the entire asset inside high-fidelity 5D BIM digital twins, synchronizing heavy cranes, parametric facades, and live soil mechanics.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setShowreelOpen(true)}
+                className="px-5 py-3 bg-[#DC2626] hover:bg-[#EF4444] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-lg"
+              >
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>Watch Construction Showreel</span>
+              </button>
+            </div>
+          </div>
+
+          {/* 3D Interactive Model Stage Container */}
+          <div className="relative border border-[#262D3B] bg-[#161B26] overflow-hidden shadow-2xl rounded-xs">
+            {/* Top CAD Status HUD Bar */}
+            <div className="flex flex-wrap items-center justify-between px-4 py-3 bg-[#13171F] border-b border-[#262D3B] text-[11px] font-mono text-[#9CA3AF]">
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-1.5 text-white font-bold">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+                  3D SCENE: MEGASTRUCTURE_SIM_LOD500.CAD
+                </span>
+                <span className="text-[#374151]">|</span>
+                <span className="text-[#9CA3AF]">FOV: 65° • RAYTRACING: ACTIVE</span>
+              </div>
+              <div className="flex items-center gap-4 text-[10px]">
+                <span className="text-[#DC2626]">GRID: 1000mm ISO</span>
+                <span>CRANE SENSORS: 4/4 SYNCHRONIZED</span>
+              </div>
+            </div>
+
+            {/* 3D Picture Visual Viewport with Interactive Hotspots */}
+            <div className="relative aspect-[16/9] min-h-[380px] sm:min-h-[480px] w-full overflow-hidden group">
+              <img
+                src={CONSTRUCTION_3D_BG}
+                alt="3D Superstructure Construction Site Model"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover filter contrast-125 saturate-110 brightness-95"
+              />
+              
+              {/* Subtle Scanning Grid Lines */}
+              <div className="absolute inset-0 bg-grid-pattern opacity-15 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#111315] via-transparent to-transparent opacity-80" />
+
+              {/* Interactive Hotspot 0: Heavy Luffing Jib Tower Cranes */}
+              <div 
+                style={{ top: '22%', left: '72%' }}
+                className="absolute z-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={() => setActiveHotspot(0)}
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className={`absolute w-8 h-8 rounded-full bg-[#DC2626]/40 animate-ping ${activeHotspot === 0 ? 'opacity-100' : 'opacity-40'}`} />
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${activeHotspot === 0 ? 'bg-[#DC2626] border-white scale-125' : 'bg-black/80 border-[#DC2626] text-white hover:scale-110'}`}>
+                    <span className="text-[10px] font-mono font-black text-white">01</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Interactive Hotspot 1: Diagrid High-Yield Steel Superstructure */}
+              <div 
+                style={{ top: '48%', left: '46%' }}
+                className="absolute z-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={() => setActiveHotspot(1)}
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className={`absolute w-8 h-8 rounded-full bg-[#DC2626]/40 animate-ping ${activeHotspot === 1 ? 'opacity-100' : 'opacity-40'}`} />
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${activeHotspot === 1 ? 'bg-[#DC2626] border-white scale-125' : 'bg-black/80 border-[#DC2626] text-white hover:scale-110'}`}>
+                    <span className="text-[10px] font-mono font-black text-white">02</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Interactive Hotspot 2: Kinetic Solar Glazing & Façade */}
+              <div 
+                style={{ top: '36%', left: '26%' }}
+                className="absolute z-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={() => setActiveHotspot(2)}
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className={`absolute w-8 h-8 rounded-full bg-[#DC2626]/40 animate-ping ${activeHotspot === 2 ? 'opacity-100' : 'opacity-40'}`} />
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${activeHotspot === 2 ? 'bg-[#DC2626] border-white scale-125' : 'bg-black/80 border-[#DC2626] text-white hover:scale-110'}`}>
+                    <span className="text-[10px] font-mono font-black text-white">03</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Interactive Hotspot 3: Deep Foundation Piles & Seismic Core */}
+              <div 
+                style={{ top: '78%', left: '38%' }}
+                className="absolute z-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={() => setActiveHotspot(3)}
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className={`absolute w-8 h-8 rounded-full bg-[#DC2626]/40 animate-ping ${activeHotspot === 3 ? 'opacity-100' : 'opacity-40'}`} />
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${activeHotspot === 3 ? 'bg-[#DC2626] border-white scale-125' : 'bg-black/80 border-[#DC2626] text-white hover:scale-110'}`}>
+                    <span className="text-[10px] font-mono font-black text-white">04</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Bottom Hotspot Spec Detail Card */}
+              <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-md bg-[#13171F]/95 backdrop-blur-md border border-[#262D3B] p-4 text-white shadow-xl z-20">
+                {activeHotspot === 0 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[10px] font-mono text-[#DC2626] uppercase font-bold tracking-wider">Hotspot 01 • Heavy Rigging</span>
+                      <span className="text-[9px] font-mono text-[#10B981] bg-[#10B981]/10 px-1.5 py-0.5 border border-[#10B981]/30">ACTIVE HOOK LOAD: 42T</span>
+                    </div>
+                    <h4 className="text-sm font-bold font-display text-white mb-1">Liebherr High-Capacity Luffing Tower Cranes</h4>
+                    <p className="text-xs text-[#9CA3AF] leading-relaxed">
+                      Autonomous anti-collision radar matrix, millimeter hook gyro-stabilizers, and synchronous tandem heavy-lift algorithms for structural column placement.
+                    </p>
+                  </div>
+                )}
+                {activeHotspot === 1 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[10px] font-mono text-[#DC2626] uppercase font-bold tracking-wider">Hotspot 02 • Structural Frame</span>
+                      <span className="text-[9px] font-mono text-[#10B981] bg-[#10B981]/10 px-1.5 py-0.5 border border-[#10B981]/30">STEEL GRADE: S460ML</span>
+                    </div>
+                    <h4 className="text-sm font-bold font-display text-white mb-1">Seismic Diagrid Steel Superstructure</h4>
+                    <p className="text-xs text-[#9CA3AF] leading-relaxed">
+                      Parametrically tuned node joints with Buckling Restrained Bracing (BRB) engineered to dissipate multi-axis seismic harmonics and extreme hurricane wind loads.
+                    </p>
+                  </div>
+                )}
+                {activeHotspot === 2 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[10px] font-mono text-[#DC2626] uppercase font-bold tracking-wider">Hotspot 03 • Envelope Systems</span>
+                      <span className="text-[9px] font-mono text-[#10B981] bg-[#10B981]/10 px-1.5 py-0.5 border border-[#10B981]/30">SHGC: 0.22 COEFF</span>
+                    </div>
+                    <h4 className="text-sm font-bold font-display text-white mb-1">Aerodynamic Kinetic Curtain Wall</h4>
+                    <p className="text-xs text-[#9CA3AF] leading-relaxed">
+                      Triple-glazed argon thermal barriers with integrated micro-louver sun-tracking units that minimize solar gain and optimize internal daylighting.
+                    </p>
+                  </div>
+                )}
+                {activeHotspot === 3 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[10px] font-mono text-[#DC2626] uppercase font-bold tracking-wider">Hotspot 04 • Geotechnical Sub-base</span>
+                      <span className="text-[9px] font-mono text-[#10B981] bg-[#10B981]/10 px-1.5 py-0.5 border border-[#10B981]/30">DEPTH: -65 METERS</span>
+                    </div>
+                    <h4 className="text-sm font-bold font-display text-white mb-1">Bored Cast-in-Place Deep Caissons</h4>
+                    <p className="text-xs text-[#9CA3AF] leading-relaxed">
+                      High-strength geopolymer foundation piles anchored into solid bedrock with continuous fiber-optic strain and pore-water pressure telemetry.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Bottom 4-Hotspot Selector Strip */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#262D3B] bg-[#13171F] border-t border-[#262D3B]">
+              {[
+                { id: 0, title: 'Tower Cranes & Rigging', metric: '64t Max Lift' },
+                { id: 1, title: 'Diagrid Steel Frame', metric: 'S460ML Grade' },
+                { id: 2, title: 'Kinetic Curtain Glazing', metric: '0.22 SHGC' },
+                { id: 3, title: 'Deep Bedrock Caissons', metric: '65m Foundation' }
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveHotspot(item.id)}
+                  className={`p-3 text-left transition-all cursor-pointer ${
+                    activeHotspot === item.id 
+                      ? 'bg-[#DC2626]/20 text-white border-b-2 border-b-[#DC2626]' 
+                      : 'text-[#9CA3AF] hover:bg-[#1C2230] hover:text-white'
+                  }`}
+                >
+                  <div className="text-[10px] font-mono text-[#DC2626] font-bold">NODE 0{item.id + 1}</div>
+                  <div className="text-xs font-bold text-white truncate">{item.title}</div>
+                  <div className="text-[10px] text-[#6B7280] font-mono">{item.metric}</div>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
