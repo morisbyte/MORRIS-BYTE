@@ -19,22 +19,28 @@ import { ProjectCard } from '../components/common/ProjectCard';
 import { useToast } from '../context/ToastContext';
 
 interface ProjectDetailPageProps {
-  slugOrId: string;
-  projects: Project[];
+  slugOrId?: string;
+  idOrSlug?: string;
+  projects?: Project[];
   navigate: (route: string, params?: { idOrSlug?: string }) => void;
-  openProjectModal: () => void;
+  openProjectModal?: () => void;
+  onOpenProjectModal?: () => void;
 }
 
 export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   slugOrId,
-  projects,
+  idOrSlug,
+  projects = [],
   navigate,
-  openProjectModal
+  openProjectModal,
+  onOpenProjectModal
 }) => {
   const { success } = useToast();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const targetId = slugOrId || idOrSlug || '';
+  const triggerModal = openProjectModal || onOpenProjectModal || (() => {});
 
-  const project = projects.find(p => p.slug === slugOrId || p.id === slugOrId) || projects[0];
+  const project = projects.find(p => p.slug === targetId || p.id === targetId) || projects[0];
 
   const relatedProjects = projects
     .filter(p => p.id !== project?.id && (p.category === project?.category || p.status === project?.status))
@@ -277,8 +283,8 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
                   Discuss your commercial, infrastructure or civic project feasibility with our global engineering directorate.
                 </p>
                 <button
-                  onClick={openProjectModal}
-                  className="w-full py-3.5 bg-[#DC2626] hover:bg-[#EF4444] text-[#111315] text-xs font-bold uppercase tracking-widest transition-all shadow-md"
+                  onClick={triggerModal}
+                  className="w-full py-3.5 bg-[#DC2626] hover:bg-[#EF4444] text-[#111315] text-xs font-bold uppercase tracking-widest transition-all shadow-md cursor-pointer"
                 >
                   Start Project Proposal
                 </button>

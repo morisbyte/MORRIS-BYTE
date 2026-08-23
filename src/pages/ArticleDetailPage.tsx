@@ -15,21 +15,24 @@ import { BlogCard } from '../components/common/BlogCard';
 import { useToast } from '../context/ToastContext';
 
 interface ArticleDetailPageProps {
-  slugOrId: string;
-  blogPosts: BlogPost[];
+  slugOrId?: string;
+  idOrSlug?: string;
+  blogPosts?: BlogPost[];
   navigate: (route: string, params?: { idOrSlug?: string }) => void;
 }
 
 export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({
   slugOrId,
-  blogPosts,
+  idOrSlug,
+  blogPosts = [],
   navigate
 }) => {
   const { success } = useToast();
-  const post = blogPosts.find(p => p.slug === slugOrId || p.id === slugOrId) || blogPosts[0];
+  const targetId = slugOrId || idOrSlug || '';
+  const post = blogPosts.find(p => p.slug === targetId || p.id === targetId) || blogPosts[0];
 
   const relatedPosts = blogPosts
-    .filter(p => p.id !== post?.id && (p.category === post?.category || p.tags.some(t => post?.tags.includes(t))))
+    .filter(p => p.id !== post?.id && (p.category === post?.category || p.tags?.some(t => post?.tags?.includes(t))))
     .slice(0, 3);
 
   if (!post) {

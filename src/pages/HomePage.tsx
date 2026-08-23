@@ -180,17 +180,46 @@ export const HomePage: React.FC<HomePageProps> = ({
 
             {/* Primary Action Row */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-              {/* Showreel Circle Trigger */}
+              {/* Visual Cinematic Showreel Trigger Card */}
               <button 
                 onClick={() => setShowreelOpen(true)}
-                className="group cursor-pointer flex items-center gap-3 focus:outline-none"
+                className="group cursor-pointer relative flex items-center gap-3 p-1.5 pr-4 bg-white/90 hover:bg-white border border-[#D9D7D0] hover:border-[#DC2626] shadow-sm hover:shadow-lg transition-all focus:outline-none"
+                title="Watch Full Cinematic 4K Construction Showreel"
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-[#111315] flex items-center justify-center group-hover:bg-[#111315] transition-all">
-                  <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-[#111315] border-b-[5px] border-b-transparent ml-1 group-hover:border-l-[#F4F1EA]" />
+                {/* Reel Thumbnail with Live Action Overlay */}
+                <div className="relative w-14 h-14 sm:w-16 sm:h-16 overflow-hidden bg-[#111315] shrink-0">
+                  <img
+                    src="https://images.unsplash.com/photo-1541888946425-d0fbb18086f6?q=85&w=400&auto=format&fit=crop"
+                    alt="Construction Showreel Video Thumbnail"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-115 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-[#111315]/40 group-hover:bg-[#111315]/10 transition-colors" />
+                  
+                  {/* Glowing Animated Play Badge */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="absolute w-7 h-7 rounded-full bg-[#DC2626]/50 animate-ping group-hover:opacity-100 opacity-60" />
+                    <div className="w-7 h-7 rounded-full bg-[#DC2626] group-hover:bg-[#EF4444] text-white flex items-center justify-center shadow-md transition-transform group-hover:scale-110">
+                      <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+                    </div>
+                  </div>
                 </div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#111315] group-hover:text-[#DC2626] transition-colors">
-                  View Showreel
-                </span>
+
+                {/* Text & Specs */}
+                <div className="text-left">
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626] animate-pulse" />
+                    <span className="text-[9px] font-mono text-[#DC2626] font-bold uppercase tracking-wider">
+                      4K HDR REEL
+                    </span>
+                  </div>
+                  <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-[#111315] font-display group-hover:text-[#DC2626] transition-colors block">
+                    Watch Showreel
+                  </span>
+                  <span className="text-[10px] font-mono text-[#6B7280]">
+                    03:20 • 4 Chapters
+                  </span>
+                </div>
               </button>
 
               <div className="hidden sm:block h-[1px] w-10 bg-[#D9D7D0]" />

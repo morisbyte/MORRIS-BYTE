@@ -161,14 +161,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             {/* Desktop Navigation Links */}
-            <div className="hidden xl:flex items-center gap-0.5">
+            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1">
               {navLinks.map(link => {
                 const isActive = currentRoute === link.id;
                 return (
                   <button
                     key={link.id}
                     onClick={() => handleNavClick(link.id)}
-                    className={`px-2.5 py-1.5 text-[11px] uppercase tracking-wider font-bold transition-all relative whitespace-nowrap cursor-pointer ${
+                    className={`px-2 xl:px-2.5 py-1.5 text-[10px] xl:text-[11px] uppercase tracking-wider font-bold transition-all relative whitespace-nowrap cursor-pointer ${
                       isActive 
                         ? 'text-[#DC2626]' 
                         : 'text-[#D1D5DB] hover:text-white'
@@ -176,30 +176,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   >
                     {link.label}
                     {isActive && (
-                      <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#DC2626]" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Compact Desktop Navigation for Large Laptops (1024-1280px) */}
-            <div className="hidden lg:flex xl:hidden items-center gap-0.5">
-              {navLinks.slice(0, 5).map(link => {
-                const isActive = currentRoute === link.id;
-                return (
-                  <button
-                    key={link.id}
-                    onClick={() => handleNavClick(link.id)}
-                    className={`px-2 py-1.5 text-[10px] uppercase tracking-wider font-bold transition-all relative whitespace-nowrap cursor-pointer ${
-                      isActive 
-                        ? 'text-[#DC2626]' 
-                        : 'text-[#D1D5DB] hover:text-white'
-                    }`}
-                  >
-                    {link.label}
-                    {isActive && (
-                      <span className="absolute bottom-0 left-1 right-1 h-[2px] bg-[#DC2626]" />
+                      <span className="absolute bottom-0 left-1.5 right-1.5 h-[2px] bg-[#DC2626]" />
                     )}
                   </button>
                 );

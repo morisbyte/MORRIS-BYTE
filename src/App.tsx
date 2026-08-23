@@ -112,12 +112,38 @@ function MainApp() {
     loadData();
   }, [loadData]);
 
+  // Helper to normalize route names and aliases
+  const normalizeRoute = (route: string): string => {
+    if (['admin-login', 'cms', 'portal', 'login', 'dashboard', 'executive'].includes(route)) {
+      return 'admin';
+    }
+    if (['editorial', 'blog', 'articles', 'news', 'research', 'whitepapers'].includes(route)) {
+      return 'insights';
+    }
+    if (['article', 'post', 'blog-detail'].includes(route)) {
+      return 'article-detail';
+    }
+    if (['project', 'portfolio-detail'].includes(route)) {
+      return 'project-detail';
+    }
+    if (['esg', 'carbon', 'sustainability-report'].includes(route)) {
+      return 'sustainability';
+    }
+    if (['services', 'disciplines', 'capabilities'].includes(route)) {
+      return 'expertise';
+    }
+    if (['jobs', 'vacancies', 'join', 'work-with-us'].includes(route)) {
+      return 'careers';
+    }
+    if (['job', 'career-detail'].includes(route)) {
+      return 'job-detail';
+    }
+    return route;
+  };
+
   // Route Synchronization with Hash for browser navigation
   const navigate = useCallback((route: string, params: { idOrSlug?: string } = {}) => {
-    // Normalize CMS routes
-    const targetRoute = ['admin-login', 'cms', 'portal', 'login', 'dashboard', 'executive'].includes(route)
-      ? 'admin'
-      : route;
+    const targetRoute = normalizeRoute(route);
 
     setCurrentRoute(targetRoute);
     setRouteParams(params);
@@ -146,10 +172,8 @@ function MainApp() {
       let primaryRoute = parts[0];
       const param = parts[1];
 
-      // Normalize CMS/Admin aliases
-      if (['admin-login', 'cms', 'portal', 'login', 'dashboard', 'executive'].includes(primaryRoute)) {
-        primaryRoute = 'admin';
-      }
+      // Normalize route aliases
+      primaryRoute = normalizeRoute(primaryRoute);
 
       if (primaryRoute) {
         setCurrentRoute(primaryRoute);
@@ -320,9 +344,10 @@ function MainApp() {
 
         {currentRoute === 'project-detail' && (
           <ProjectDetailPage
-            idOrSlug={routeParams.idOrSlug}
+            slugOrId={routeParams.idOrSlug}
+            projects={projects}
             navigate={navigate}
-            onOpenProjectModal={() => setIsRfpModalOpen(true)}
+            openProjectModal={() => setIsRfpModalOpen(true)}
           />
         )}
 
@@ -335,6 +360,7 @@ function MainApp() {
 
         {currentRoute === 'insights' && (
           <InsightsPage
+            blogPosts={blogPosts}
             articles={blogPosts}
             navigate={navigate}
           />
@@ -342,7 +368,8 @@ function MainApp() {
 
         {currentRoute === 'article-detail' && (
           <ArticleDetailPage
-            idOrSlug={routeParams.idOrSlug}
+            slugOrId={routeParams.idOrSlug}
+            blogPosts={blogPosts}
             navigate={navigate}
           />
         )}
@@ -357,7 +384,8 @@ function MainApp() {
 
         {currentRoute === 'job-detail' && (
           <JobDetailPage
-            idOrSlug={routeParams.idOrSlug}
+            jobId={routeParams.idOrSlug}
+            jobs={jobs}
             navigate={navigate}
             onApply={handleOpenJobApplication}
           />

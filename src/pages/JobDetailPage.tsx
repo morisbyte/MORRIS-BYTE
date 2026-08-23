@@ -14,19 +14,22 @@ import {
 import { Job } from '../types';
 
 interface JobDetailPageProps {
-  jobId: string;
-  jobs: Job[];
+  jobId?: string;
+  idOrSlug?: string;
+  jobs?: Job[];
   navigate: (route: string, params?: { idOrSlug?: string }) => void;
   onApply: (job: Job) => void;
 }
 
 export const JobDetailPage: React.FC<JobDetailPageProps> = ({
   jobId,
-  jobs,
+  idOrSlug,
+  jobs = [],
   navigate,
   onApply
 }) => {
-  const job = jobs.find(j => j.id === jobId) || jobs[0];
+  const targetId = jobId || idOrSlug || '';
+  const job = jobs.find(j => j.id === targetId || j.slug === targetId) || jobs[0];
 
   if (!job) {
     return (

@@ -13,18 +13,20 @@ import { BlogCard } from '../components/common/BlogCard';
 import { SectionHeading } from '../components/common/SectionHeading';
 
 interface InsightsPageProps {
-  blogPosts: BlogPost[];
+  blogPosts?: BlogPost[];
+  articles?: BlogPost[];
   navigate: (route: string, params?: { idOrSlug?: string }) => void;
 }
 
-export const InsightsPage: React.FC<InsightsPageProps> = ({ blogPosts, navigate }) => {
+export const InsightsPage: React.FC<InsightsPageProps> = ({ blogPosts, articles, navigate }) => {
+  const posts = blogPosts || articles || [];
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const categories = ['All', 'Sustainability', 'Technology & AI', 'Infrastructure', 'Architecture', 'Project Management'];
 
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter(post => {
+    return posts.filter(post => {
       const matchesCat = selectedCategory === 'All' || post.category === selectedCategory;
       const matchesSearch = searchQuery === '' ||
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -32,9 +34,9 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({ blogPosts, navigate 
         post.author.name.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCat && matchesSearch;
     });
-  }, [blogPosts, selectedCategory, searchQuery]);
+  }, [posts, selectedCategory, searchQuery]);
 
-  const featuredPost = blogPosts.find(p => p.featured) || blogPosts[0];
+  const featuredPost = posts.find(p => p.featured) || posts[0];
 
   return (
     <div className="flex flex-col w-full bg-[#F4F1EA] text-[#111315] pt-20 sm:pt-24">
