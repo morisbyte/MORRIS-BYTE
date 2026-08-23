@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-brand-primary: #DC2626;
+  --color-brand-accent: #EF4444;
+  --color-brand-dark: #991B1B;
+  --color-surface-dark: #0B0D11;
+  --color-surface-card: #13171F;
+  --color-surface-elevated: #1B202A;
+  --color-surface-border: #262D3B;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #0A0B0D;
+  color: #F3F4F6;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Red Glow effects */
+.glow-primary {
+  box-shadow: 0 0 30px -5px rgba(220, 38, 38, 0.35);
+}
+
+.glow-red {
+  box-shadow: 0 0 30px -5px rgba(239, 68, 68, 0.3);
+}
+
+.glow-card {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* Subtle background patterns */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(220, 38, 38, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.bg-radial-gradient-hero {
+  background: radial-gradient(circle at 50% 20%, rgba(220, 38, 38, 0.15) 0%, rgba(185, 28, 28, 0.06) 45%, transparent 70%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0B0D;
+}
+::-webkit-scrollbar-thumb {
+  background: #272B33;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #DC2626;
+}
